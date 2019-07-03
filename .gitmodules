@@ -1,0 +1,3 @@
+[submodule "include/vvm-core"]
+	path = include/vvm-core
+	url = https://github.com/averrin/vvm-core

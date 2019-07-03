@@ -6,6 +6,7 @@
 // #include "args.hpp"
 #include "vvm/analyzer.hpp"
 #include "vvm/devices/rng.hpp"
+#include "vvm/devices/video.hpp"
 
 int main(int argc, char *argv[]) {
   // args::ArgumentParser parser(
@@ -30,13 +31,10 @@ int main(int argc, char *argv[]) {
   auto dis_code = analyzer.parseFile(filename);
 
   core->compile(dis_code);
-  // core->mapMem(rnd_mem);
-  auto rnd_mem = std::make_shared<MemoryContainer>(MemoryContainer(4));
-  auto rng = std::make_shared<RngDevice>(rnd_mem);
-  auto pic_mem = std::make_shared<MemoryContainer>(MemoryContainer(256));
-
+  auto rng = std::make_shared<RngDevice>(4);
+  auto video = std::make_shared<VideoDevice>(32, 16);
   core->addDevice(rng);
-  core->mapMem(pic_mem);
+  core->addDevice(video);
 
   core->saveBytes(fmt::format("{}.init", vm_filename));
   core->execCode();
